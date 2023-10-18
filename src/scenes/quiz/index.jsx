@@ -1,35 +1,34 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-  Slider,
-} from "@mui/material";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import data from "../../data/quizData";
 
-const QuizComponent = ({ question }) => {
-  const [selectedOption, setSelectedOption] = useState("");
-  const [isCorrect, setIsCorrect] = useState(false);
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsCorrect(option === question.correctOption);
-  };
-
+const QuizComponent = ({
+  question,
+  onOptionSelect,
+  isCorrect,
+  selectedOption,
+  onNext,
+  onPrev,
+  onSubmit,
+  currentQuestionIndex,
+  totalQuestions,
+  totalCorrect,
+}) => {
   return (
     <Card
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "start",
+        alignItems: "start",
         backgroundColor: "#808080",
-        width: "400px",
-        height: "auto",
+        minWidth: "40%",
+        minHeight: "30%",
+        maxHeight: "80%",
         fontSize: "20px",
         transition: "all 0.3s",
         margin: "20px",
+        overflowY: "scroll",
       }}
     >
       <CardContent>
@@ -42,107 +41,274 @@ const QuizComponent = ({ question }) => {
           <Button
             key={index}
             variant="contained"
-            sx={{ margin: "10px", fontSize: "20px" }}
-            onClick={() => handleOptionSelect(option)}
+            sx={{
+              margin: "10px",
+              padding: "10px",
+              minWidth: "200px",
+              fontSize: "20px",
+              backgroundColor:
+                selectedOption === option ? "#940B92" : undefined,
+            }}
+            onClick={() => onOptionSelect(option)}
           >
             {option}
           </Button>
         ))}
-        <br />
-        {isCorrect && (
-          <Typography variant="h7" sx={{ color: "#03719C", fontSize: "24px" }}>
-            Correct! {question.explanation}
-          </Typography>
-        )}
-        {!isCorrect && selectedOption && (
-          <Typography variant="h7" sx={{ color: "#AB2C38", fontSize: "24px" }}>
-            Incorrect. The correct answer is {question.correctOption}.
-          </Typography>
-        )}
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Button
+            variant="contained"
+            onClick={onPrev}
+            sx={{
+              margin: "10px",
+              fontSize: "20px",
+              backgroundColor: "#9D4DFF",
+            }}
+            disabled={currentQuestionIndex === 0}
+          >
+            Prev
+          </Button>
+          {currentQuestionIndex < totalQuestions - 1 ? (
+            <Button
+              variant="contained"
+              onClick={onNext}
+              sx={{
+                margin: "10px",
+                fontSize: "20px",
+                backgroundColor: "#9D4DFF",
+              }}
+            >
+              Next
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={onSubmit}
+              sx={{
+                margin: "10px",
+                fontSize: "20px",
+                backgroundColor: "#C70039",
+              }}
+            >
+              Submit
+            </Button>
+          )}
+        </Box>
       </CardContent>
     </Card>
   );
 };
 
 const Quiz = () => {
-  const questions = [
-    {
-      question: "Polymorphism is",
-      options: ["option1", "option2", "option3", "option4"],
-      correctOption: "option1",
-      subject: "C++",
-      addedBy: "User1",
-      explanation: "blah blah blah",
-    },
-    {
-      question: "Inheritance is",
-      options: ["option1", "option2", "option3", "option4"],
-      correctOption: "option2",
-      subject: "C++",
-      addedBy: "User2",
-      explanation: "blah blah blah",
-    },
-    {
-      question: "Encapsulation is",
-      options: ["option1", "option2", "option3", "option4"],
-      correctOption: "option3",
-      subject: "C++",
-      addedBy: "User3",
-      explanation: "blah blah blahblah",
-    },
-    {
-      question: "Inheritance is",
-      options: ["option1", "option2", "option3", "option4"],
-      correctOption: "option2",
-      subject: "C++",
-      addedBy: "User2",
-      explanation: "blah blah blah",
-    },
-    {
-      question: "Inheritance is",
-      options: ["option1", "option2", "option3", "option4"],
-      correctOption: "option2",
-      subject: "C++",
-      addedBy: "User2",
-      explanation: "blah blah blah",
-    },
-    {
-      question: "Inheritance is",
-      options: ["option1", "option2", "option3", "option4"],
-      correctOption: "option2",
-      subject: "C++",
-      addedBy: "User2",
-      explanation: "blah blah blah",
-    },
-    {
-      question: "Inheritance is",
-      options: ["option1", "option2", "option3", "option4"],
-      correctOption: "option2",
-      subject: "C++",
-      addedBy: "User2",
-      explanation: "blah blah blah",
-    },
-    // Add more questions here, up to a total of 10
-  ];
+  const questions = data;
+  const [numberOfQuestions, setNumberOfQuestions] = useState(questions.length); // Default number of questions
+  const [topic, setTopic] = useState(""); // Default topic
+  const [filteredQuestions, setFilteredQuestion] = useState([]);
+
+  useEffect(() => {
+    setFilteredQuestion(
+      questions
+        .slice(0, numberOfQuestions)
+        .filter(
+          (question) =>
+            question.topic.toLowerCase().includes(topic.toLowerCase()) ||
+            question.options.some((option) =>
+              option.toLowerCase().includes(topic.toLowerCase())
+            )
+        )
+    );
+  }, [numberOfQuestions, topic]);
+  console.log(filteredQuestions);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const currentQuestion = filteredQuestions[currentQuestionIndex];
+  const [selectedOption, setSelectedOption] = useState("");
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [totalCorrect, setTotalCorrect] = useState(0);
+  const [showResults, setShowResults] = useState(false);
+  const [correctAns, setCorrect] = useState([]);
+  const [inCorrectAns, setInCorrect] = useState([]);
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    if (option === currentQuestion.correctOption) {
+      setIsCorrect(true);
+      setTotalCorrect(totalCorrect + 1);
+      setCorrect((questions) => {
+        return [...questions, currentQuestion];
+      });
+    } else {
+      setIsCorrect(false);
+      setInCorrect((questions) => {
+        return [...questions, currentQuestion];
+      });
+    }
+  };
+
+  const handleNext = () => {
+    setSelectedOption("");
+    setIsCorrect(false);
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    setSelectedOption("");
+    setIsCorrect(false);
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const [correctAnswers, setCorrectAnswers] = useState([]);
+  const [incorrectAnswers, setIncorrectAnswers] = useState([]);
+
+  const handleSubmit = () => {
+    const correct = [];
+    const incorrect = [];
+
+    correctAns.forEach((question, index) => {
+      correct.push(
+        <>
+          <Typography
+            key={index}
+            variant="h4"
+            sx={{ color: "#F44336", fontSize: "24px" }}
+          >
+            {question.question}
+          </Typography>
+          <Typography
+            key={index}
+            variant="body1"
+            sx={{ color: "#4CAF50", fontSize: "20px" }}
+          >
+            Correct Answers: {question.correctOption}
+          </Typography>
+        </>
+      );
+    });
+    inCorrectAns.forEach((question, index) => {
+      incorrect.push(
+        <>
+          <Typography
+            key={index}
+            variant="h4"
+            sx={{ color: "#F44336", fontSize: "24px" }}
+          >
+            {question.question}
+          </Typography>
+          <Typography
+            key={index}
+            variant="body1"
+            sx={{ color: "#4CAF50", fontSize: "20px" }}
+          >
+            Correct Answers: {question.correctOption}
+          </Typography>
+        </>
+      );
+    });
+
+    setCorrectAnswers(correct);
+    setIncorrectAnswers(incorrect);
+    setShowResults(true);
+  };
+
+  if (showResults) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        m="30px"
+      >
+        <Typography variant="h2" gutterBottom>
+          Quiz Results
+        </Typography>
+        <Box m={2}>
+          <Card sx={{ padding: "20px", backgroundColor: "#000" }}>
+            <CardContent>
+              <Typography variant="h3" gutterBottom sx={{ color: "#ffffff" }}>
+                Correct Answers
+              </Typography>
+              {correctAnswers}
+            </CardContent>
+          </Card>
+        </Box>
+        <Box m={2}>
+          <Card sx={{ padding: "20px", backgroundColor: "#000" }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom sx={{ color: "#ffffff" }}>
+                Incorrect Answers
+              </Typography>
+              {incorrectAnswers}
+            </CardContent>
+          </Card>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      justifyContent="center"
-      m="30px"
-      flexWrap="wrap"
-      paddingBottom={20}
-      sx={{
-        position: "fixed",
-        height: "100%",
-        overflowY: "scroll",
-        scrollbarWidth: "10px",
-      }}
-    >
-      {questions.map((questionObject) => {
-        return <QuizComponent question={questionObject} />;
-      })}
+    <Box display="flex" flexDirection="column" m="30px">
+      <Box display="flex" justifyContent="center" m="10px">
+        <Box sx={{ margin: "5px" }}>
+          <Typography
+            variant="body1"
+            sx={{ fontSize: "16px", marginRight: "10px" }}
+          >
+            Select number of questions:
+          </Typography>
+          <select
+            value={numberOfQuestions}
+            onChange={(e) => setNumberOfQuestions(parseInt(e.target.value))}
+          >
+            {questions.map((_, index) => (
+              <option key={index} value={index + 1}>
+                {index + 1}
+              </option>
+            ))}
+          </select>
+        </Box>
+        <Box sx={{ margin: "5px" }}>
+          <Typography
+            variant="body1"
+            sx={{ fontSize: "16px", marginRight: "10px" }}
+          >
+            Filter by topic:
+          </Typography>
+          <input
+            type="text"
+            placeholder="Enter topic"
+            onChange={(e) => setTopic(e.target.value)}
+            style={{ padding: "5px", fontSize: "16px" }}
+          />
+        </Box>
+      </Box>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+        m="30px"
+        flexWrap="wrap"
+        paddingBottom={20}
+        sx={{
+          height: "80%",
+        }}
+      >
+        {currentQuestion && (
+          <QuizComponent
+            question={currentQuestion}
+            onOptionSelect={handleOptionSelect}
+            isCorrect={isCorrect}
+            selectedOption={selectedOption}
+            onNext={handleNext}
+            onPrev={handlePrev}
+            onSubmit={handleSubmit}
+            currentQuestionIndex={currentQuestionIndex}
+            totalQuestions={filteredQuestions.length}
+            totalCorrect={totalCorrect}
+          />
+        )}
+      </Box>
     </Box>
   );
 };
