@@ -9,12 +9,14 @@ const data = [
     ],
     correctOption: "Object Oriented Programming",
     topic: "OOPS",
+    solved: "yes",
   },
   {
     question: "Which one of these is not a fundamental concept in OOP?",
     options: ["Inheritance", "Polymorphism", "Variables", "Encapsulation"],
     correctOption: "Variables",
     topic: "OOPS",
+    solved: "yes",
   },
   {
     question: "What is the main purpose of using getters and setters in OOP?",
@@ -26,6 +28,7 @@ const data = [
     ],
     correctOption: "To provide access to private variables",
     topic: "OOPS",
+    solved: "yes",
   },
   {
     question:
@@ -33,6 +36,7 @@ const data = [
     options: ["Encapsulation", "Abstraction", "Inheritance", "Polymorphism"],
     correctOption: "Inheritance",
     topic: "OOPS",
+    solved: "yes",
   },
   {
     question: "What does the term 'this' refer to in OOP?",
@@ -44,6 +48,8 @@ const data = [
     ],
     correctOption: "The current object instance",
     topic: "OOPS",
+    solved: "no",
+    uid: "SJDHGAJSHDGAKS",
   },
   {
     question: "What is the purpose of the 'super' keyword in Java?",
@@ -55,6 +61,8 @@ const data = [
     ],
     correctOption: "To refer to the superclass object",
     topic: "Java",
+    solved: "no",
+    uid: "SJDHGAJSHDGAKS",
   },
   {
     question: "What is the use of 'instanceof' operator in Java?",
@@ -66,6 +74,8 @@ const data = [
     ],
     correctOption: "To check the class of an object",
     topic: "Java",
+    solved: "no",
+    uid: "SJDHGAJSHDGAKS",
   },
 
   {
@@ -78,6 +88,8 @@ const data = [
     ],
     correctOption: "Internet Protocol",
     topic: "COMPUTER NETWORK",
+    solved: "no",
+    uid: "SJDHGAJSHDGAKS",
   },
   {
     question: "What is RDBMS?",
@@ -89,6 +101,8 @@ const data = [
     ],
     correctOption: "Relational Database Management System",
     topic: "DBMS",
+    solved: "no",
+    uid: "SJDHGAJSHDGAKS",
   },
   {
     question: "What is SQL used for?",
@@ -100,6 +114,7 @@ const data = [
     ],
     correctOption: "All of the above",
     topic: "SQL",
+    solved: "no",
   },
   {
     question: "What is the function of the Kernel?",
@@ -111,6 +126,7 @@ const data = [
     ],
     correctOption: "All of the above",
     topic: "OPERATING SYSTEM",
+    solved: "no",
   },
   {
     question: "What is SDLC?",
@@ -122,6 +138,7 @@ const data = [
     ],
     correctOption: "Software Development Life Cycle",
     topic: "SOFTWARE ENGINEERING",
+    solved: "no",
   },
   {
     question: "What is System Design?",
@@ -134,6 +151,7 @@ const data = [
     correctOption:
       "Process of defining the architecture, components, modules, interfaces, and data for a system",
     topic: "SYSTEM DESIGN",
+    solved: "no",
   },
   {
     question: "What is HTTP?",
@@ -145,6 +163,7 @@ const data = [
     ],
     correctOption: "HyperText Transfer Protocol",
     topic: "COMPUTER NETWORK",
+    solved: "no",
   },
   {
     question: "What is a primary key in a database?",
@@ -156,6 +175,7 @@ const data = [
     ],
     correctOption: "A key that uniquely identifies each record in a table",
     topic: "DBMS",
+    solved: "no",
   },
   {
     question: "What is an API?",
@@ -167,6 +187,7 @@ const data = [
     ],
     correctOption: "Application Programming Interface",
     topic: "COMPUTER NETWORK",
+    solved: "no",
   },
   {
     question: "What is a LAN?",
@@ -178,6 +199,7 @@ const data = [
     ],
     correctOption: "Local Area Network",
     topic: "COMPUTER NETWORK",
+    solved: "no",
   },
   {
     question: "What is the purpose of a firewall?",
@@ -189,6 +211,7 @@ const data = [
     ],
     correctOption: "All of the above",
     topic: "COMPUTER NETWORK",
+    solved: "no",
   },
 ];
 

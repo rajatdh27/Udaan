@@ -124,14 +124,14 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Question Solved"
-              to="/"
+              to="/solved"
               icon={<QuestionAnswer />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Question Added"
-              to="/"
+              to="/question"
               icon={<AddBox />}
               selected={selected}
               setSelected={setSelected}
