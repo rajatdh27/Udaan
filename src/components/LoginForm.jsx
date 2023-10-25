@@ -158,6 +158,20 @@ const LoginForm = (props) => {
               Login
             </Button>
           )}{" "}
+          <Button
+            type="submit"
+            sx={{
+              backgroundColor: "#1F2A40",
+              color: "white",
+              marginTop: "10px",
+            }}
+            onClick={() => {
+              navigate("/signup");
+            }}
+            variant="contained"
+          >
+            Go to Sign Up Page
+          </Button>
         </Paper>
       </Grid>
       <Grid container justifyContent="center" sx={{ marginTop: "20px" }}>

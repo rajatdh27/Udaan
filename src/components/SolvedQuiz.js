@@ -10,8 +10,8 @@ import {
   FormLabel,
 } from "@mui/material";
 
-const SolvedQuiz = () => {
-  const solvedData = data.filter((item) => item.solved === "yes");
+const SolvedQuiz = (props) => {
+  const solvedData = props.ques.filter((item) => item.userId.includes(props.uid));
   return (
     <div>
       {solvedData.map((item, index) => (

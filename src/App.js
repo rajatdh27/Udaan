@@ -65,7 +65,6 @@ function App() {
     if (user.uid !== "") {
       fetchData();
     }
-    console.log("hekas", questionData);
   }, [user.uid]);
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -94,7 +93,10 @@ function App() {
                 }
               >
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/quiz" element={<Quiz ques={questionData} />} />
+                <Route
+                  path="/quiz"
+                  element={<Quiz ques={questionData} uid={user.uid} />}
+                />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/invoices" element={<Invoices />} />
                 <Route path="/form" element={<Form uid={user.uid} />} />
@@ -103,7 +105,10 @@ function App() {
                   element={<QuestionAdded data={questionData} uid={user.uid} />}
                 />
                 <Route path="/pie" element={<Pie />} />
-                <Route path="/solved" element={<SolvedQuiz />} />
+                <Route
+                  path="/solved"
+                  element={<SolvedQuiz ques={questionData} uid={user.uid} />}
+                />
                 <Route path="/faq" element={<FAQ />} />
               </Route>
             </Routes>

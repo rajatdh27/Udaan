@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import data from "../../data/quizData";
 
 const QuizComponent = ({
@@ -99,14 +101,8 @@ const QuizComponent = ({
 };
 
 const Quiz = (props) => {
-  let questions = props.ques || data;
-  const arr = [props.ques];
+  const questions = props.ques || data;
 
-  console.log(arr, "tell", data, "helll", questions, "mell");
-  // if (props.data.questions.length > 0) {
-  //   console.log(props.data.questions);
-  //   questions = props.data.questions;
-  // }
   const [numberOfQuestions, setNumberOfQuestions] = useState(questions.length); // Default number of questions
   const [topic, setTopic] = useState(""); // Default topic
   const [filteredQuestions, setFilteredQuestion] = useState([]);
@@ -115,8 +111,8 @@ const Quiz = (props) => {
     setFilteredQuestion(
       questions.slice(0, numberOfQuestions).filter(
         (question) =>
-          // question.topic.includes(topic) ||
-          //   question.options.some((option) => option.includes())
+          // question.subject.includes(topic) ||
+          // question.options.some((option) => option.includes())
           question
       )
     );
@@ -168,7 +164,16 @@ const Quiz = (props) => {
   const handleSubmit = () => {
     const correct = [];
     const incorrect = [];
-
+    correctAns.forEach((question, index) => {
+      console.log(question, "sdashkhas");
+      try {
+        updateDoc(doc(db, `questions/${question.id}/`), {
+          userId: arrayUnion(props.uid),
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    });
     correctAns.forEach((question, index) => {
       correct.push(
         <>

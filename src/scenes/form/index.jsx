@@ -22,6 +22,7 @@ const Form = (props) => {
       correctOption: values.correctAnswer.toLowerCase(),
       solved: "no",
       userId: [],
+      subject: values.subject.toLowerCase(),
       givenBy: props.uid,
     };
     try {

@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 
 const QuestionAdded = (props) => {
-  console.log(props.data);
   const solvedData = props.data.filter((item) => item.givenBy === props.uid);
   return (
     <div>
