@@ -98,26 +98,30 @@ const QuizComponent = ({
   );
 };
 
-const Quiz = () => {
-  const questions = data;
+const Quiz = (props) => {
+  let questions = props.ques || data;
+  const arr = [props.ques];
+
+  console.log(arr, "tell", data, "helll", questions, "mell");
+  // if (props.data.questions.length > 0) {
+  //   console.log(props.data.questions);
+  //   questions = props.data.questions;
+  // }
   const [numberOfQuestions, setNumberOfQuestions] = useState(questions.length); // Default number of questions
   const [topic, setTopic] = useState(""); // Default topic
   const [filteredQuestions, setFilteredQuestion] = useState([]);
 
   useEffect(() => {
     setFilteredQuestion(
-      questions
-        .slice(0, numberOfQuestions)
-        .filter(
-          (question) =>
-            question.topic.toLowerCase().includes(topic.toLowerCase()) ||
-            question.options.some((option) =>
-              option.toLowerCase().includes(topic.toLowerCase())
-            )
-        )
+      questions.slice(0, numberOfQuestions).filter(
+        (question) =>
+          // question.topic.includes(topic) ||
+          //   question.options.some((option) => option.includes())
+          question
+      )
     );
-  }, [numberOfQuestions, topic]);
-  console.log(filteredQuestions);
+  }, [numberOfQuestions, topic, questions]);
+  console.log(filteredQuestions, filteredQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const currentQuestion = filteredQuestions[currentQuestionIndex];
   const [selectedOption, setSelectedOption] = useState("");

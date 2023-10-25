@@ -10,8 +10,9 @@ import {
   FormLabel,
 } from "@mui/material";
 
-const QuestionAdded = () => {
-  const solvedData = data.filter((item) => item.uid === "SJDHGAJSHDGAKS");
+const QuestionAdded = (props) => {
+  console.log(props.data);
+  const solvedData = props.data.filter((item) => item.givenBy === props.uid);
   return (
     <div>
       {solvedData.map((item, index) => (
@@ -34,13 +35,23 @@ const QuestionAdded = () => {
             </RadioGroup>
           </FormControl>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Correct Option</FormLabel>
+            <FormLabel
+              component="legend"
+              sx={{
+                color: "green",
+              }}
+            >
+              Correct Option
+            </FormLabel>
             <RadioGroup aria-label="quiz" name="quiz">
               <FormControlLabel
                 value={item.correctOption}
                 control={<Radio />}
                 label={item.correctOption}
                 disabled
+                sx={{
+                  color: "green",
+                }}
               />
             </RadioGroup>
           </FormControl>

@@ -3,12 +3,34 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../firebaseConfig";
 
-const Form = () => {
+const Form = (props) => {
+  const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
-
   const handleFormSubmit = (values) => {
-    console.log(values);
+    const question = {
+      question: values.question.toLowerCase(),
+      options: [
+        values.option1.toLowerCase(),
+        values.option2.toLowerCase(),
+        values.option3.toLowerCase(),
+        values.option4.toLowerCase(),
+      ],
+      correctOption: values.correctAnswer.toLowerCase(),
+      solved: "no",
+      userId: [],
+      givenBy: props.uid,
+    };
+    try {
+      addDoc(collection(db, `questions/`), question);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(question);
   };
 
   return (
@@ -119,13 +141,13 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Explanation"
+                label="correctAnswer"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.explanation}
-                name="explanation"
-                error={!!touched.explanation && !!errors.explanation}
-                helperText={touched.explanation && errors.explanation}
+                value={values.correctAnswer}
+                name="correctAnswer"
+                error={!!touched.correctAnswer && !!errors.correctAnswer}
+                helperText={touched.correctAnswer && errors.correctAnswer}
                 sx={{ gridColumn: "span 2" }}
               />
             </Box>
@@ -148,7 +170,7 @@ const checkoutSchema = yup.object().shape({
   option3: yup.string().required("required"),
   option4: yup.string().required("required"),
   subject: yup.string().required("required"),
-  explanation: yup.string().required("required"),
+  correctAnswer: yup.string().required("required"),
 });
 const initialValues = {
   question: "",
@@ -157,7 +179,7 @@ const initialValues = {
   option3: "",
   option4: "",
   subject: "",
-  explanation: "",
+  correctAnswer: "",
 };
 
 export default Form;

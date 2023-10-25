@@ -36,7 +36,7 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
+            title="0"
             subtitle="Question solved"
             icon={
               <QuestionMark
@@ -53,14 +53,14 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="431,225"
+            title="0"
             subtitle="Questions Added"
             icon={
               <Add sx={{ color: colors.greenAccent[600], fontSize: "26px" }} />
             }
           />
         </Box>
-        <Box
+        {/* <Box
           gridColumn="span 4"
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -76,7 +76,7 @@ const Dashboard = () => {
               />
             }
           />
-        </Box>
+        </Box> */}
 
         {/* ROW 2 */}
       </Box>
