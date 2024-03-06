@@ -104,7 +104,7 @@ const LoginForm = (props) => {
               letterSpacing: "2px",
             }}
           >
-            Badho
+            Udaan
           </Box>
           <TextField
             id="email"

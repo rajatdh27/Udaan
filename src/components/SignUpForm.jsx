@@ -143,7 +143,7 @@ const SignUpForm = (props) => {
               letterSpacing: "2px",
             }}
           >
-            Badho
+            Udaan
           </Box>
           <TextField
             id="name"
